@@ -47,14 +47,42 @@ export class Question extends Entity<QuestionProps> {
     return dayjs().diff(this.createdAt, 'days') <= 3
   }
 
+  get excerpt() {
+    return this.content.substring(0, 120).trimEnd().concat('...')
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
+  set content(content: string) {
+    this.props.content = content
+
+    this.touch()
+  }
+
+  set title(title: string) {
+    this.props.title = title
+    this.props.slug = Slug.crateFromText(title)
+
+    this.touch()
+  }
+
+  set bestAnswerId(bestAnswerId: UniqueEntityID | undefined) {
+    this.props.bestAnswerId = bestAnswerId
+
+    this.touch()
+  }
+
   static create(
-    props: Optional<QuestionProps, 'createdAt'>,
+    props: Optional<QuestionProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityID,
   ) {
     const question = new Question(
       {
         ...props,
         createdAt: new Date(),
+        slug: props.slug ?? Slug.crateFromText(props.title),
       },
       id,
     )
