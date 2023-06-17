@@ -5,13 +5,13 @@ import { Answer } from '@/domain/forum/enterprise/entities/answer'
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
 
-  async delete(answer: Answer): Promise<void> {
+  async delete(answer: Answer) {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
 
     this.items.splice(itemIndex, 1)
   }
 
-  async findById(id: String): Promise<Answer | null> {
+  async findById(id: String) {
     const answer = this.items.find((item) => item.id.toString() === id)
 
     if (!answer) {
