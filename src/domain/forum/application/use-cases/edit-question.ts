@@ -62,9 +62,11 @@ export class EditQuestionUseCase {
 
     questionAttachmentList.update(questionAttachments)
 
-    question.title = title
-    question.content = content
     question.attachments = questionAttachmentList
+
+    question.title = title
+
+    question.content = content
 
     await this.questionsRepository.save(question)
 
